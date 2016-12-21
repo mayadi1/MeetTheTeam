@@ -9,11 +9,12 @@
 import UIKit
 
 class TeamViewController: UIViewController {
+    var passedPersons = [TeamPerson]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+    
     }
 
 }

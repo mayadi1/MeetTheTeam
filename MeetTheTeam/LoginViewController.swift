@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class LoginViewController: UIViewController {
+    var persons = [TeamPerson]()
+    var myTimer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +25,13 @@ class LoginViewController: UIViewController {
         loginButton.backgroundColor = UIColor.red
         loginButton.setTitle("Login", for: .normal)
         loginButton.frame = CGRect(x: view.frame.width / 4, y: view.frame.height * 3/4, width: view.frame.width / 2, height: 50)
+        loginButton.layer.cornerRadius = loginButton.bounds.size.width / 2
         loginButton.addTarget(self, action: #selector(loginbuttonPressed), for: .touchUpInside)
          self.view.addSubview(loginButton)
     }
     
     func loginbuttonPressed() {
+        SVProgressHUD.show(withStatus: "I'm working on it")
         configJASON(json: readJSON())
     }
     
@@ -43,28 +48,28 @@ class LoginViewController: UIViewController {
     }
     
     func configJASON(json: [[String:AnyObject]]) {
-        var persons = [TeamPerson]()
         for person in json{
             if let avatar = person["avatar"] as? String {
                 if let url = URL(string: avatar) {
-                  persons.append(TeamPerson(passedAvatar: downloadImage(url: url), passedBio: person["bio"] as! String, passedFirstName: person["firstName"] as! String, passedId: person["id"] as! String, passedLastName: person["lastName"] as! String, passedTitle: person["title"] as! String))
+                    self.persons.append(TeamPerson(passedAvatar: url, passedBio: person["bio"] as! String, passedFirstName: person["firstName"] as! String, passedId: person["id"] as! String, passedLastName: person["lastName"] as! String, passedTitle: person["title"] as! String))
                 }
             }
         }
-    }
-    
-    func downloadImage(url: URL) -> UIImage {
-        var data: Data!
-        DispatchQueue.global().async {
-            data = try? Data(contentsOf: url)
-        }
-         return UIImage(data: data!)!
-       
+        myTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(LoginViewController.checkPersonsImages), userInfo: nil, repeats: true)
     }
     
     func presentTeamViewScreen(){
+        SVProgressHUD.showSuccess(withStatus: "Great Success")
+        self.myTimer.invalidate()
         let teamView = TeamViewController()
+        teamView.passedPersons = persons
         teamView.modalTransitionStyle = .flipHorizontal
         navigationController?.pushViewController(teamView, animated: true)
+    }
+    
+    func checkPersonsImages(){
+        if persons.last?.image != nil{
+            self.presentTeamViewScreen()
+        }
     }
   }
