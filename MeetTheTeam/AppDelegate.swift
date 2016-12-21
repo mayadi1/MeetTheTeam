@@ -12,10 +12,17 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var navController: UINavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        navController = UINavigationController()
+        navController?.navigationBar.backgroundColor = UIColor.red
+        let login = LoginViewController()
+        navController!.pushViewController(login, animated: false)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window!.rootViewController = navController
+        window!.makeKeyAndVisible()
         return true
     }
 
