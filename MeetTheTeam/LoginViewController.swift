@@ -15,7 +15,6 @@ class LoginViewController: UIViewController {
         self.title = "Login page"
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "coffeeAndBagel")!)
         initializeLoginButton()
-        configJASON(json: readJSON())
     }
 
     func initializeLoginButton() {
@@ -28,9 +27,7 @@ class LoginViewController: UIViewController {
     }
     
     func loginbuttonPressed() {
-        let teamView = TeamViewController()
-        teamView.modalTransitionStyle = .flipHorizontal
-        navigationController?.pushViewController(teamView, animated: true)
+        configJASON(json: readJSON())
     }
     
     func readJSON() -> [[String:AnyObject]]! {
@@ -48,11 +45,10 @@ class LoginViewController: UIViewController {
     func configJASON(json: [[String:AnyObject]]) {
         var persons = [TeamPerson]()
         for person in json{
-            if let firstName = person["firstName"] as? String {}
-            if let lastName = person["lastName"] as? String {}
-            if let title = person["title"] as? String {}
             if let avatar = person["avatar"] as? String {
-                if let url = URL(string: avatar) {downloadImage(url: url)}
+                if let url = URL(string: avatar) {
+                  persons.append(TeamPerson(passedAvatar: downloadImage(url: url), passedBio: person["bio"] as! String, passedFirstName: person["firstName"] as! String, passedId: person["id"] as! String, passedLastName: person["lastName"] as! String, passedTitle: person["title"] as! String))
+                }
             }
         }
     }
@@ -62,6 +58,13 @@ class LoginViewController: UIViewController {
         DispatchQueue.global().async {
             data = try? Data(contentsOf: url)
         }
-        return UIImage(data: data!)!
+         return UIImage(data: data!)!
+       
+    }
+    
+    func presentTeamViewScreen(){
+        let teamView = TeamViewController()
+        teamView.modalTransitionStyle = .flipHorizontal
+        navigationController?.pushViewController(teamView, animated: true)
     }
   }
