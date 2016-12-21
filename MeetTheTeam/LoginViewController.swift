@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
         self.title = "Login page"
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "coffeeAndBagel")!)
         initializeLoginButton()
-        
+        configJASON(json: readJSON())
     }
 
     func initializeLoginButton() {
@@ -27,22 +27,41 @@ class LoginViewController: UIViewController {
          self.view.addSubview(loginButton)
     }
     
-    func loginbuttonPressed(){
+    func loginbuttonPressed() {
         let teamView = TeamViewController()
         teamView.modalTransitionStyle = .flipHorizontal
         navigationController?.pushViewController(teamView, animated: true)
-        readJSON()
     }
     
-    func readJSON() {
-        var json: [[String:AnyObject]]?
+    func readJSON() -> [[String:AnyObject]]! {
         let url = Bundle.main.url(forResource: "team", withExtension: "json")
         let data = try! Data(contentsOf: url!)
         do {
             let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String:AnyObject]]
-            json = object
+             return object!
         } catch {
             // Handle error here
+            return nil
         }
+    }
+    
+    func configJASON(json: [[String:AnyObject]]) {
+        var persons = [TeamPerson]()
+        for person in json{
+            if let firstName = person["firstName"] as? String {}
+            if let lastName = person["lastName"] as? String {}
+            if let title = person["title"] as? String {}
+            if let avatar = person["avatar"] as? String {
+                if let url = URL(string: avatar) {downloadImage(url: url)}
+            }
+        }
+    }
+    
+    func downloadImage(url: URL) -> UIImage {
+        var data: Data!
+        DispatchQueue.global().async {
+            data = try? Data(contentsOf: url)
+        }
+        return UIImage(data: data!)!
     }
   }

@@ -9,14 +9,14 @@
 import UIKit
 
 class TeamPerson{
-    let avatar: String!
+    let avatar: UIImage!
     let bio: String!
     let firstName: String!
     let id: String!
     let lastName: String!
     let title: String!
     
-    init(passedAvatar: String,passedBio: String,passedFirstName: String,passedId: String,passedLastName: String,passedTitle: String) {
+    init(passedAvatar: UIImage,passedBio: String,passedFirstName: String,passedId: String,passedLastName: String,passedTitle: String) {
         self.avatar = passedAvatar
         self.bio = passedBio
         self.firstName = passedFirstName
