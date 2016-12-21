@@ -79,8 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				18B31A561E0A185500EC8A26 /* LoginViewController.swift */,
-				18B31A591E0A22E800EC8A26 /* TeamViewController.swift */,
 				18A585D61E0A655F00155EEF /* TeamPerson.swift */,
+				18B31A591E0A22E800EC8A26 /* TeamViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
