@@ -14,6 +14,7 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.red
         self.title = "Meet The Team"
         initializeCollectionView()
         passedPersons = passedPersons.sorted { $0.title < $1.title }
@@ -39,6 +40,8 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         cell.textLabel?.text = passedPersons[indexPath.row].firstName + " " + passedPersons[indexPath.row].lastName
         cell.detailTextLabel?.text = passedPersons[indexPath.row].title
         cell.imageView?.image = passedPersons[indexPath.row].image
+        cell.layer.cornerRadius = cell.layer.frame.width / 6
+        cell.layer.masksToBounds = true
         cell.backgroundColor = getRandomColor()
         return cell
     }
