@@ -16,6 +16,7 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         self.title = "Meet The Team"
         initializeCollectionView()
+        passedPersons = passedPersons.sorted { $0.title < $1.title }
 
     }
     
@@ -38,7 +39,21 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         cell.textLabel?.text = passedPersons[indexPath.row].firstName + " " + passedPersons[indexPath.row].lastName
         cell.detailTextLabel?.text = passedPersons[indexPath.row].title
         cell.imageView?.image = passedPersons[indexPath.row].image
+        cell.backgroundColor = getRandomColor()
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
+    
+    //Function that generates randon color
+    func getRandomColor() -> UIColor{
+        //Generate between 0 to 1
+        let red:CGFloat = CGFloat(drand48())
+        let green:CGFloat = CGFloat(drand48())
+        let blue:CGFloat = CGFloat(drand48())
+        
+        return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
+    }
 }
