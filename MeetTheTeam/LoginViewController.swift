@@ -15,7 +15,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set("loginNotPressed", forKey: "loginButton")
         self.title = "Login page"
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "coffeeAndBagel")!)
         initializeLoginButton()
@@ -33,8 +32,7 @@ class LoginViewController: UIViewController {
     
     func loginbuttonPressed() {
         SVProgressHUD.show(withStatus: "I'm working on it")
-        if (UserDefaults.standard.string(forKey: "loginButton")!) == "loginNotPressed"{
-            UserDefaults.standard.set("loginPressed", forKey: "loginButton")
+        if self.persons.count == 0{
             configJASON(json: readJSON())
         }else{
             self.presentTeamViewScreen()

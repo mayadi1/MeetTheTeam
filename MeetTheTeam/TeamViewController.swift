@@ -17,8 +17,8 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         self.view.backgroundColor = UIColor.red
         self.title = "Meet The Team"
         initializeCollectionView()
-        passedPersons = passedPersons.sorted { $0.title < $1.title }
-
+        sortArrayOfTeamPersonByTitle()
+        sortArrayOfTeamPersonByFounder()
     }
     
     //tableView initialization
@@ -50,7 +50,15 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         return 90
     }
     
-    //Function that generates randon color
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedPersonViewController = SelectedPersonViewController()
+        selectedPersonViewController.passedPersons = self.passedPersons[indexPath.row]
+        selectedPersonViewController.modalTransitionStyle = .flipHorizontal
+        navigationController?.pushViewController(selectedPersonViewController, animated: true)
+       
+    }
+    
+    //Function that generates random color
     func getRandomColor() -> UIColor{
         //Generate between 0 to 1
         let red:CGFloat = CGFloat(drand48())
@@ -58,5 +66,20 @@ class TeamViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         let blue:CGFloat = CGFloat(drand48())
         
         return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
+    }
+    
+    func sortArrayOfTeamPersonByTitle(){
+        passedPersons = passedPersons.sorted { $0.title < $1.title }
+    }
+    
+    func sortArrayOfTeamPersonByFounder(){
+        var counter = 0
+        for person in passedPersons{
+            if person.title == "Founder"{
+             passedPersons.insert(person, at: 0)
+             passedPersons.remove(at: counter + 1)
+            }
+            counter = counter + 1
+        }
     }
 }
